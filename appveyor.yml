@@ -1,0 +1,10 @@
+version: 1.0.{build}
+os: Visual Studio 2015
+configuration: Release
+before_build:
+- ps: nuget restore src\.nuget\packages.config
+build:
+  verbosity: minimal
+artifacts:
+- path: bin\**\*.nupkg
+  name: NuGet package
