@@ -1,6 +1,8 @@
 Read only source tree
 ======================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/6sl6g515a8btj7f4/branch/master?svg=true)](https://ci.appveyor.com/project/AArnott/readonlysourcetree/branch/master)
+
 This project contains a NuGet package that will cause any project it is installed into
 to build its primary output and intermediate files to bin and obj directories at the
 root of your repository instead of as subdirectories to the project directory.
