@@ -4,4 +4,5 @@
 internal static class TestProjects
 {
     internal const string DefaultCSharpClassLibrary = "DefaultCSharpClassLibrary";
+    internal const string CSharpLibraryWithXmlDoc = "CSharpLibraryWithXmlDoc";
 }

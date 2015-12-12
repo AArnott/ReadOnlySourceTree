@@ -29,19 +29,25 @@ public class BuildIntegrationTests
         Assert.Equal(expectedPath, actualPath);
     }
 
-    [Fact]
-    public async Task NoBinUnderProject()
+    [Theory]
+    [InlineData(TestProjects.CSharpLibraryWithXmlDoc)]
+    [InlineData(TestProjects.DefaultCSharpClassLibrary)]
+    public async Task NoBinUnderProject(string testProjectName)
     {
-        var project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary);
+        var project = await this.PrepareProjectAsync(testProjectName);
         var buildResult = await project.BuildAsync();
+        buildResult.AssertSuccessfulBuild();
         Assert.False(Directory.Exists(Path.Combine(project.ProjectDirectory, "bin")));
     }
 
-    [Fact]
-    public async Task NoObjUnderProject()
+    [Theory]
+    [InlineData(TestProjects.CSharpLibraryWithXmlDoc)]
+    [InlineData(TestProjects.DefaultCSharpClassLibrary)]
+    public async Task NoObjUnderProject(string testProjectName)
     {
-        var project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary);
+        var project = await this.PrepareProjectAsync(testProjectName);
         var buildResult = await project.BuildAsync();
+        buildResult.AssertSuccessfulBuild();
         Assert.False(Directory.Exists(Path.Combine(project.ProjectDirectory, "obj")));
     }
 
