@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="build\ReadOnlySourceTree.props" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build\dotnet\ReadOnlySourceTree.props" />
+    <Content Include="build\dotnet\ReadOnlySourceTree.targets" />
+    <Content Include="build\ReadOnlySourceTree.props" />
+    <Content Include="build\ReadOnlySourceTree.targets" />
+    <Content Include="build\portable-net+win+wpa+wp+sl+net-cf+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.props" />
+    <Content Include="build\portable-net+win+wpa+wp+sl+net-cf+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.targets" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>445acb1e-3015-4af1-a4a6-f1aeed163d48</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(RepoRoot)packages\Nuproj.0.10.27-beta-g2363d7cd98\tools\</NuProjPath>
+    <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>ReadOnlySourceTree</Id>
+    <Title>ReadOnlySourceTree</Title>
+    <Authors>Andrew Arnott</Authors>
+    <Owners>andarno</Owners>
+    <Summary>Build your project to top-level bin and obj directories</Summary>
+    <Description>Moves your project's bin and obj folders to top-level repository folders, allowing your source code to remain clean of build artifacts.</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>https://github.com/aarnott/ReadOnlySourceTree</ProjectUrl>
+    <LicenseUrl>https://raw.githubusercontent.com/AArnott/ReadOnlySourceTree/$CommitId$/LICENSE.txt</LicenseUrl>
+    <Copyright>Copyright © Andrew Arnott</Copyright>
+    <Tags>ReadOnlySourceTree</Tags>
+    <GenerateSymbolPackage>false</GenerateSymbolPackage>
+    <DevelopmentDependency>true</DevelopmentDependency>
+  </PropertyGroup>
+
+  <Target Name="GetNuPkgVersion" DependsOnTargets="GetBuildVersion">
+    <PropertyGroup>
+      <Version>$(NuGetPackageVersion)</Version>
+      <NuSpecProperties>$(NuGetProperties);CommitId=$(GitCommitIdShort)</NuSpecProperties>
+    </PropertyGroup>
+  </Target>
+
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+  <Import Project="build\ReadOnlySourceTree.targets" />
+  <Import Project="$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets"/>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets'))" />
+  </Target>
+</Project>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+
+    <RepoSrcRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .RepoSrcRoot))</RepoSrcRoot>
+    <RepoSrcRoot Condition=" '$(RepoSrcRoot)' != '' ">$([MSBuild]::MakeRelative($(MSBuildProjectDirectory), '$(RepoSrcRoot)\'))</RepoSrcRoot>
+
+    <RepoRoot Condition=" '$(RepoRoot)' == '' and '$(RepoSrcRoot)' != '' ">$(RepoSrcRoot)..\</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), init.cmd))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitattributes))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), README.md))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), version.txt))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), version.json))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), EnlistmentInfo.props))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' != '' and !HasTrailingSlash('$(RepoRoot)')">$(RepoRoot)\</RepoRoot>
+
+    <RepoBinRoot>$(RepoRoot)bin\</RepoBinRoot>
+    <RepoIntermediatesRoot>$(RepoRoot)obj\</RepoIntermediatesRoot>
+
+    <ProjectBuildOutputGroup Condition=" '$(ProjectBuildOutputGroup)' == '' ">$(MSBuildProjectName)</ProjectBuildOutputGroup>
+    <ProjectBuildOutputGroup Condition=" '$(ProjectBuildOutputGroup)' != '' and !HasTrailingSlash('$(ProjectBuildOutputGroup)')">$(ProjectBuildOutputGroup)\</ProjectBuildOutputGroup>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' ">
+    <!-- We set OutputPath here and in our .targets
+         (to re-apply the value after the project's default overwrites it).
+         Keep these definitions in sync. -->
+    <OutputPath>$(RepoBinRoot)$(Configuration)\$(ProjectBuildOutputGroup)</OutputPath>
+    <OutputPath Condition=" '$(TF_BUILD_BINARIESDIRECTORY)' != '' ">$(TF_BUILD_BINARIESDIRECTORY)\$(ProjectBuildOutputGroup)</OutputPath>
+
+    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(Configuration)\$(ProjectBuildOutputGroup)\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+  </PropertyGroup>
+</Project>
