@@ -63,6 +63,10 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <PropertyGroup>
+    <TestBeforeTargets_OutputPath>$(OutputPath)</TestBeforeTargets_OutputPath>
+    <TestBeforeTargets_IntermediateOutputPath>$(IntermediateOutputPath)</TestBeforeTargets_IntermediateOutputPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
