@@ -14,6 +14,8 @@ public class BuildIntegrationTests
 {
     private readonly ITestOutputHelper logger;
 
+    internal static string DefaultConfiguration = Environment.GetEnvironmentVariable("Configuration") ?? "Debug";
+
     public BuildIntegrationTests(ITestOutputHelper logger)
     {
         this.logger = logger;
@@ -24,7 +26,7 @@ public class BuildIntegrationTests
     {
         TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary);
         var evaluation = project.LoadProject();
-        string expectedPath = Path.Combine("..", "..", "bin", "Debug", project.Name, evaluation.GetPropertyValue("TargetFileName"));
+        string expectedPath = Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
         var actualPath = evaluation.GetPropertyValue("TargetPath");
         Assert.Equal(expectedPath, actualPath);
     }
