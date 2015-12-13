@@ -22,4 +22,22 @@
     <ProjectBuildOutputGroup Condition=" '$(ProjectBuildOutputGroup)' == '' ">$(MSBuildProjectName)</ProjectBuildOutputGroup>
     <ProjectBuildOutputGroup Condition=" '$(ProjectBuildOutputGroup)' != '' and !HasTrailingSlash('$(ProjectBuildOutputGroup)')">$(ProjectBuildOutputGroup)\</ProjectBuildOutputGroup>
   </PropertyGroup>
+
+  <!-- It's important that we set output paths before many .targets are imported
+       that may consume it. Yet we don't know for sure what the project's default config and platform
+       are. We just have to make a best guess. When building within a solution, it should be correct
+       because the project is built with global properties to pre-specify these. -->
+  <PropertyGroup>
+    <!-- Don't set Configuration and Platform themselves because we don't want to override the project defaults. -->
+    <_ROSTPlatform>$(Platform)</_ROSTPlatform>
+    <_ROSTPlatform Condition=" '$(_ROSTPlatform)' == '' ">AnyCPU</_ROSTPlatform>
+    <_ROSTConfiguration>$(Configuration)</_ROSTConfiguration>
+    <_ROSTConfiguration Condition=" '$(_ROSTConfiguration)' == '' ">Debug</_ROSTConfiguration>
+
+    <PlatformPathModifier Condition=" '$(_ROSTPlatform)' != 'AnyCPU' ">$(_ROSTPlatform)\</PlatformPathModifier>
+
+    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(ProjectBuildOutputGroup)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <OutputPath>$(RepoBinRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(ProjectBuildOutputGroup)</OutputPath>
+  </PropertyGroup>
 </Project>
