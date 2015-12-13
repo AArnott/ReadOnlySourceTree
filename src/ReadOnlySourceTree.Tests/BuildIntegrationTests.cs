@@ -31,6 +31,25 @@ public class BuildIntegrationTests
         Assert.Equal(expectedPath, actualPath);
     }
 
+    [Fact]
+    public async Task PathModifiers_x64()
+    {
+        TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary);
+        var evaluation = project.LoadProject(MSBuild.Properties.Default.Add("Platform", "x64"));
+
+        string expectedOutputPath = Path.Combine("..", "..", "bin", "x64", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
+        string actualOutputPath = evaluation.GetPropertyValue("OutputPath");
+        Assert.Equal(expectedOutputPath, actualOutputPath);
+
+        string expectedIntermediateOutputPath = Path.Combine("..", "..", "obj", "x64", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
+        var actualIntermediateOutputPath = evaluation.GetPropertyValue("IntermediateOutputPath");
+        Assert.Equal(expectedIntermediateOutputPath, actualIntermediateOutputPath);
+
+        string expectedTargetPath = Path.Combine("..", "..", "bin", "x64", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
+        var actualTargetPath = evaluation.GetPropertyValue("TargetPath");
+        Assert.Equal(expectedTargetPath, actualTargetPath);
+    }
+
     [Theory]
     [InlineData(TestProjects.CSharpLibraryWithXmlDoc)]
     [InlineData(TestProjects.DefaultCSharpClassLibrary)]

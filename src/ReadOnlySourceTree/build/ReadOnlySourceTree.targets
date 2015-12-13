@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' ">
+    <PlatformPathModifier Condition=" '$(PlatformName)' != 'AnyCPU' ">$(PlatformName)\</PlatformPathModifier>
+
+    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(Configuration)\$(ProjectBuildOutputGroup)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+
     <_ProjectSetOutputPath>$(OutputPath)</_ProjectSetOutputPath>
 
     <!-- Re-set the OutputPath property since default project templates unconditionally set it,
          undoing what we did in the .props file. -->
-    <OutputPath>$(RepoBinRoot)$(Configuration)\$(ProjectBuildOutputGroup)</OutputPath>
-    <OutputPath Condition=" '$(TF_BUILD_BINARIESDIRECTORY)' != '' ">$(TF_BUILD_BINARIESDIRECTORY)\$(ProjectBuildOutputGroup)</OutputPath>
+    <OutputPath>$(RepoRoot)$(OutputPath)$(ProjectBuildOutputGroup)</OutputPath>
 
     <!-- Redefine properties that the Microsoft.Common.targets would have defined based on 
          $(OutputPath) as it was defined after the project file's own contents (which we just overrided). -->

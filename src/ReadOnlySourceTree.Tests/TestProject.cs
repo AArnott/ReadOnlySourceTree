@@ -46,9 +46,9 @@ internal class TestProject : IDisposable
         }
     }
 
-    public Project LoadProject()
+    public Project LoadProject(IDictionary<string, string> properties = null)
     {
-        return new Project(this.ProjectFullPath, MSBuild.Properties.Default, null, new ProjectCollection());
+        return new Project(this.ProjectFullPath, properties ?? MSBuild.Properties.Default, null, new ProjectCollection());
     }
 
     internal static async Task<TestProject> ExtractAsync(string testProjectName)

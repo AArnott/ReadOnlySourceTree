@@ -22,15 +22,4 @@
     <ProjectBuildOutputGroup Condition=" '$(ProjectBuildOutputGroup)' == '' ">$(MSBuildProjectName)</ProjectBuildOutputGroup>
     <ProjectBuildOutputGroup Condition=" '$(ProjectBuildOutputGroup)' != '' and !HasTrailingSlash('$(ProjectBuildOutputGroup)')">$(ProjectBuildOutputGroup)\</ProjectBuildOutputGroup>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' ">
-    <!-- We set OutputPath here and in our .targets
-         (to re-apply the value after the project's default overwrites it).
-         Keep these definitions in sync. -->
-    <OutputPath>$(RepoBinRoot)$(Configuration)\$(ProjectBuildOutputGroup)</OutputPath>
-    <OutputPath Condition=" '$(TF_BUILD_BINARIESDIRECTORY)' != '' ">$(TF_BUILD_BINARIESDIRECTORY)\$(ProjectBuildOutputGroup)</OutputPath>
-
-    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(Configuration)\$(ProjectBuildOutputGroup)\</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-  </PropertyGroup>
 </Project>
