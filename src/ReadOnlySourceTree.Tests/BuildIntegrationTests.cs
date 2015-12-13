@@ -32,6 +32,27 @@ public class BuildIntegrationTests
     }
 
     [Fact]
+    public async Task Paths_AnyCPU()
+    {
+        TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary);
+        var evaluation = project.LoadProject();
+
+        string expectedOutputPath = Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
+        string actualOutputPath = evaluation.GetPropertyValue("OutputPath");
+        Assert.Equal(expectedOutputPath, actualOutputPath);
+        Assert.Equal($@"bin\{DefaultConfiguration}\", evaluation.GetPropertyValue("TestBeforeTargets_OutputPath"));
+
+        string expectedIntermediateOutputPath = Path.Combine("..", "..", "obj", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
+        var actualIntermediateOutputPath = evaluation.GetPropertyValue("IntermediateOutputPath");
+        Assert.Equal(expectedIntermediateOutputPath, actualIntermediateOutputPath);
+        Assert.Equal(expectedIntermediateOutputPath, evaluation.GetPropertyValue("TestBeforeTargets_IntermediateOutputPath"));
+
+        string expectedTargetPath = Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
+        var actualTargetPath = evaluation.GetPropertyValue("TargetPath");
+        Assert.Equal(expectedTargetPath, actualTargetPath);
+    }
+
+    [Fact]
     public async Task PathModifiers_x64()
     {
         TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary);
@@ -40,10 +61,12 @@ public class BuildIntegrationTests
         string expectedOutputPath = Path.Combine("..", "..", "bin", "x64", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
         string actualOutputPath = evaluation.GetPropertyValue("OutputPath");
         Assert.Equal(expectedOutputPath, actualOutputPath);
+        Assert.Equal($@"bin\x64\{DefaultConfiguration}\", evaluation.GetPropertyValue("TestBeforeTargets_OutputPath"));
 
         string expectedIntermediateOutputPath = Path.Combine("..", "..", "obj", "x64", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
         var actualIntermediateOutputPath = evaluation.GetPropertyValue("IntermediateOutputPath");
         Assert.Equal(expectedIntermediateOutputPath, actualIntermediateOutputPath);
+        Assert.Equal(expectedIntermediateOutputPath, evaluation.GetPropertyValue("TestBeforeTargets_IntermediateOutputPath"));
 
         string expectedTargetPath = Path.Combine("..", "..", "bin", "x64", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
         var actualTargetPath = evaluation.GetPropertyValue("TargetPath");

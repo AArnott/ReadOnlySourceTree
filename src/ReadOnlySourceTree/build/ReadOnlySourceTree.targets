@@ -10,11 +10,9 @@
     <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(Configuration)\$(ProjectBuildOutputGroup)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
 
-    <_ProjectSetOutputPath>$(OutputPath)</_ProjectSetOutputPath>
-
     <!-- Re-set the OutputPath property since default project templates unconditionally set it,
          undoing what we did in the .props file. -->
-    <OutputPath>$(RepoRoot)$(OutputPath)$(ProjectBuildOutputGroup)</OutputPath>
+    <OutputPath>$(RepoBinRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(ProjectBuildOutputGroup)</OutputPath>
 
     <!-- Redefine properties that the Microsoft.Common.targets would have defined based on 
          $(OutputPath) as it was defined after the project file's own contents (which we just overrided). -->
@@ -23,6 +21,6 @@
     <TargetPath>$(TargetDir)$(TargetFileName)</TargetPath>
 
     <!-- Fix placement of DocumentationFile. -->
-    <DocumentationFile Condition=" '$(DocumentationFile)'=='$(_ProjectSetOutputPath)$(AssemblyName).XML' ">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile Condition=" '$(DocumentationFile)'!='' ">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 </Project>
