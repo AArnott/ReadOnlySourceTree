@@ -41,7 +41,16 @@ public class BuildIntegrationTests
         TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary, explicitSrcRoot);
         var evaluation = project.LoadProject();
 
-        string expectedOutputPath = Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
+        string expectedRepoRootPath = Path.Combine("..", "..") + Path.DirectorySeparatorChar;
+        Assert.Equal(expectedRepoRootPath, evaluation.GetPropertyValue("RepoRoot"));
+
+        string expectedRepoSrcRootPath = Path.Combine(expectedRepoRootPath, "src") + Path.DirectorySeparatorChar;
+        Assert.Equal(expectedRepoSrcRootPath, evaluation.GetPropertyValue("RepoSrcRoot"));
+
+        string expectedRepoBinRootPath = Path.Combine(expectedRepoRootPath, "bin") + Path.DirectorySeparatorChar;
+        Assert.Equal(expectedRepoBinRootPath, evaluation.GetPropertyValue("RepoBinRoot"));
+
+        string expectedOutputPath = Path.Combine(expectedRepoBinRootPath, DefaultConfiguration, project.Name) + Path.DirectorySeparatorChar;
         string actualOutputPath = evaluation.GetPropertyValue("OutputPath");
         Assert.Equal(expectedOutputPath, actualOutputPath);
         Assert.Equal($@"bin\{DefaultConfiguration}\", evaluation.GetPropertyValue("TestBeforeTargets_OutputPath"));
