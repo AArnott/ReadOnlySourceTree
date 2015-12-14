@@ -38,7 +38,7 @@ internal class TestProject : IDisposable
             // Delete the parent directory of the project directory,
             // since when we extracted it all we created the project directory
             // within the temporary randomly named directory.
-            System.IO.Directory.Delete(Path.GetDirectoryName(this.ProjectDirectory), true);
+            Directory.Delete(Path.GetDirectoryName(this.ProjectDirectory), true);
         }
         catch (UnauthorizedAccessException)
         {
@@ -70,7 +70,7 @@ internal class TestProject : IDisposable
         // Ensure the project directory is named after the testProject so that restoring project.json works.
         // See https://github.com/NuGet/Home/issues/1479
         string projectDirectory = Path.Combine(srcDirectory, Path.GetFileNameWithoutExtension(testProjectName));
-        System.IO.Directory.CreateDirectory(projectDirectory);
+        Directory.CreateDirectory(projectDirectory);
 
         string projectFileName = null;
         var testAssets = from name in Assembly.GetExecutingAssembly().GetManifestResourceNames()
@@ -89,7 +89,7 @@ internal class TestProject : IDisposable
             using (var sourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(assetName))
             {
                 string fullPath = Path.Combine(projectDirectory, fileName);
-                System.IO.Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
                 using (var targetStream = File.OpenWrite(fullPath))
                 {
                     await sourceStream.CopyToAsync(targetStream);
