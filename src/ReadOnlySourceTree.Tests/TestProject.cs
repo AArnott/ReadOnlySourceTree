@@ -51,13 +51,21 @@ internal class TestProject : IDisposable
         return new Project(this.ProjectFullPath, properties ?? MSBuild.Properties.Default, null, new ProjectCollection());
     }
 
-    internal static async Task<TestProject> ExtractAsync(string testProjectName)
+    internal static async Task<TestProject> ExtractAsync(string testProjectName, bool explicitSrcRoot)
     {
         string resourceNamePrefix = $"ReadOnlySourceTree.Tests.Scenarios.{testProjectName}.";
 
-        string srcDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName(), "src");
-        System.IO.Directory.CreateDirectory(srcDirectory);
-        File.WriteAllText(Path.Combine(srcDirectory, ".RepoSrcRoot"), string.Empty);
+        string repoDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        string srcDirectory = Path.Combine(repoDirectory, "src");
+        Directory.CreateDirectory(srcDirectory);
+        if (explicitSrcRoot)
+        {
+            File.WriteAllText(Path.Combine(srcDirectory, ".RepoSrcRoot"), string.Empty);
+        }
+        else
+        {
+            File.WriteAllText(Path.Combine(repoDirectory, ".gitignore"), string.Empty);
+        }
 
         // Ensure the project directory is named after the testProject so that restoring project.json works.
         // See https://github.com/NuGet/Home/issues/1479
