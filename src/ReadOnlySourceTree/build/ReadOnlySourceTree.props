@@ -4,7 +4,8 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 
     <RepoSrcRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .RepoSrcRoot))</RepoSrcRoot>
-    <RepoSrcRoot Condition=" '$(RepoSrcRoot)' != '' ">$([MSBuild]::MakeRelative($(MSBuildProjectDirectory), '$(RepoSrcRoot)\'))</RepoSrcRoot>
+    <RepoSrcRoot Condition=" '$(RepoSrcRoot)' != '' ">$([MSBuild]::MakeRelative($(MSBuildProjectDirectory), '$(RepoSrcRoot)'))</RepoSrcRoot>
+    <RepoSrcRoot Condition=" '$(RepoSrcRoot)' != '' and !HasTrailingSlash('$(RepoSrcRoot)')">$(RepoSrcRoot)\</RepoSrcRoot>
 
     <RepoRoot Condition=" '$(RepoRoot)' == '' and '$(RepoSrcRoot)' != '' ">$(RepoSrcRoot)..\</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), init.cmd))</RepoRoot>
@@ -14,8 +15,12 @@
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), version.txt))</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), version.json))</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), EnlistmentInfo.props))</RepoRoot>
-    <RepoRoot Condition=" '$(RepoRoot)' != '' and !HasTrailingSlash('$(RepoRoot)')">$(RepoRoot)\</RepoRoot>
 
+    <!-- Normalize RepoRoot -->
+    <RepoRoot Condition=" '$(RepoRoot)' != '' ">$([MSBuild]::MakeRelative($(MSBuildProjectDirectory), '$(RepoRoot)\'))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' != '' ">$(RepoRoot.TrimEnd('\'))\</RepoRoot>
+
+    <RepoSrcRoot Condition=" '$(RepoSrcRoot)' == '' ">$(RepoRoot)src\</RepoSrcRoot>
     <RepoBinRoot>$(RepoRoot)bin\</RepoBinRoot>
     <RepoIntermediatesRoot>$(RepoRoot)obj\</RepoIntermediatesRoot>
 
