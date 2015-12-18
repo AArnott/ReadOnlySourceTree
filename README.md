@@ -59,4 +59,4 @@ create a nuget.config file in the root of your repository with this content:
 </configuration>
 ```
 
-[1]: src\ReadOnlySourceTree\build\ReadOnlySourceTree.props
+[1]: src/ReadOnlySourceTree/build/ReadOnlySourceTree.props
