@@ -33,6 +33,32 @@ public class BuildIntegrationTests
         Assert.Equal(expectedPath, actualPath);
     }
 
+    [Fact]
+    public async Task BuiltProjectOutputGroup()
+    {
+        TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary, false);
+        var buildResult = await project.BuildAsync("BuiltProjectOutputGroup", testLogger: this.logger);
+        buildResult.AssertSuccessfulBuild();
+        var builtItem = buildResult.Result.ResultsByTarget["BuiltProjectOutputGroup"].Items.Single();
+
+        var evaluation = project.LoadProject();
+        string expectedPath = Path.GetFullPath(Path.Combine(project.ProjectDirectory, Path.Combine("..", "..", "obj", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"))));
+        Assert.Equal(expectedPath, builtItem.ItemSpec);
+    }
+
+    [Fact]
+    public async Task DocumentationProjectOutputGroup()
+    {
+        TestProject project = await this.PrepareProjectAsync(TestProjects.CSharpLibraryWithXmlDoc, false);
+        var buildResult = await project.BuildAsync("DocumentationProjectOutputGroup", testLogger: this.logger);
+        buildResult.AssertSuccessfulBuild();
+        var builtItem = buildResult.Result.ResultsByTarget["DocumentationProjectOutputGroup"].Items.Single();
+
+        var evaluation = project.LoadProject();
+        string expectedPath = Path.GetFullPath(Path.Combine(project.ProjectDirectory, Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetName") + ".xml")));
+        Assert.Equal(expectedPath, builtItem.ItemSpec);
+    }
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
