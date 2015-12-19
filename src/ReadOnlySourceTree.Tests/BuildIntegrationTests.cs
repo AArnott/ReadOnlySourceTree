@@ -28,7 +28,7 @@ public class BuildIntegrationTests
     {
         TestProject project = await this.PrepareProjectAsync(TestProjects.DefaultCSharpClassLibrary, explicitSrcRoot);
         var evaluation = project.LoadProject();
-        string expectedPath = Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
+        string expectedPath = Path.Combine(project.BinDirectory, DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
         var actualPath = evaluation.GetPropertyValue("TargetPath");
         Assert.Equal(expectedPath, actualPath);
     }
@@ -86,7 +86,12 @@ public class BuildIntegrationTests
         Assert.Equal(expectedIntermediateOutputPath, actualIntermediateOutputPath);
         Assert.Equal(expectedIntermediateOutputPath, evaluation.GetPropertyValue("TestBeforeTargets_IntermediateOutputPath"));
 
-        string expectedTargetPath = Path.Combine("..", "..", "bin", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
+        // TargetDir is supposed to be an absolute path!
+        string expectedTargetDir = Path.Combine(project.BinDirectory, DefaultConfiguration, project.Name) + "\\";
+        var actualTargetDir = evaluation.GetPropertyValue("TargetDir");
+        Assert.Equal(expectedTargetDir, actualTargetDir);
+
+        string expectedTargetPath = Path.Combine(expectedTargetDir, evaluation.GetPropertyValue("TargetFileName"));
         var actualTargetPath = evaluation.GetPropertyValue("TargetPath");
         Assert.Equal(expectedTargetPath, actualTargetPath);
     }
@@ -109,7 +114,12 @@ public class BuildIntegrationTests
         Assert.Equal(expectedIntermediateOutputPath, actualIntermediateOutputPath);
         Assert.Equal(expectedIntermediateOutputPath, evaluation.GetPropertyValue("TestBeforeTargets_IntermediateOutputPath"));
 
-        string expectedTargetPath = Path.Combine("..", "..", "bin", "x64", DefaultConfiguration, project.Name, evaluation.GetPropertyValue("TargetFileName"));
+        // TargetDir is supposed to be an absolute path!
+        string expectedTargetDir = Path.Combine(project.BinDirectory, "x64", DefaultConfiguration, project.Name) + "\\";
+        var actualTargetDir = evaluation.GetPropertyValue("TargetDir");
+        Assert.Equal(expectedTargetDir, actualTargetDir);
+
+        string expectedTargetPath = Path.Combine(expectedTargetDir, evaluation.GetPropertyValue("TargetFileName"));
         var actualTargetPath = evaluation.GetPropertyValue("TargetPath");
         Assert.Equal(expectedTargetPath, actualTargetPath);
     }

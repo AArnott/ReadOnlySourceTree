@@ -17,7 +17,7 @@
     <!-- Redefine properties that the Microsoft.Common.targets would have defined based on 
          $(OutputPath) as it was defined after the project file's own contents (which we just overrided). -->
     <OutDir>$(OutputPath)</OutDir>
-    <TargetDir>$(OutputPath)</TargetDir>
+    <TargetDir>$([MSBuild]::Escape($([System.IO.Path]::GetFullPath(`$([System.IO.Path]::Combine(`$(MSBuildProjectDirectory)`, `$(OutDir)`))`))))</TargetDir>
     <TargetPath>$(TargetDir)$(TargetFileName)</TargetPath>
 
     <!-- Fix placement of DocumentationFile. -->
