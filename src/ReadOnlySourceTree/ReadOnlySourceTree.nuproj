@@ -11,6 +11,9 @@
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <PropertyGroup Condition="'$(NuGetPackageRoot)' == ''">
+    <NuGetPackageRoot>$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="build\dotnet\ReadOnlySourceTree.props" />
     <Content Include="build\dotnet\ReadOnlySourceTree.targets" />
@@ -23,7 +26,7 @@
     <ProjectGuid>445acb1e-3015-4af1-a4a6-f1aeed163d48</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
-    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(RepoRoot)packages\Nuproj.0.10.27-beta-g2363d7cd98\tools\</NuProjPath>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(NuGetPackageRoot)Nuproj\0.10.30-beta-gcbd7693f91\tools\</NuProjPath>
     <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
@@ -53,11 +56,13 @@
 
   <Import Project="$(NuProjPath)\NuProj.targets" />
   <Import Project="build\ReadOnlySourceTree.targets" />
-  <Import Project="$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets"/>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets'))" />
+    <Error Condition="!Exists('$(NuGetPackageRoot)Nerdbank.GitVersioning\1.1.61-rc\build\NerdBank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets'))" />
   </Target>
+  <ImportGroup>
+    <Import Project="$(NuGetPackageRoot)\Nerdbank.GitVersioning\1.1.61-rc\build\dotnet\Nerdbank.GitVersioning.targets" Condition="Exists('$(NuGetPackageRoot)\Nerdbank.GitVersioning\1.1.61-rc\build\dotnet\Nerdbank.GitVersioning.targets')" />
+  </ImportGroup>
 </Project>
