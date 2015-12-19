@@ -9,6 +9,7 @@
 
     <RepoRoot Condition=" '$(RepoRoot)' == '' and '$(RepoSrcRoot)' != '' ">$(RepoSrcRoot)..\</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), init.cmd))</RepoRoot>
+    <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), nuget.config))</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitattributes))</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))</RepoRoot>
     <RepoRoot Condition=" '$(RepoRoot)' == '' ">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), README.md))</RepoRoot>
