@@ -3,9 +3,8 @@ os: Visual Studio 2015
 configuration: Release
 before_build:
 - ps: >-
-    nuget restore src\.nuget\packages.config
-
-    nuget restore srcbuild:
+    nuget restore src
+build:
   verbosity: minimal
 artifacts:
 - path: bin\**\*.nupkg
