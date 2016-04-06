@@ -21,13 +21,13 @@
     <Content Include="build\ReadOnlySourceTree.targets" />
     <Content Include="build\portable-net+win+wpa+wp+sl+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.props" />
     <Content Include="build\portable-net+win+wpa+wp+sl+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.targets" />
+    <None Include="project.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>445acb1e-3015-4af1-a4a6-f1aeed163d48</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
-    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(NuGetPackageRoot)Nuproj\0.10.30-beta-gcbd7693f91\tools\</NuProjPath>
-    <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
+    <NuProjPath>$(NuGetPackageRoot)NuProj\0.10.40-beta-g6df38a957a\tools\</NuProjPath>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
@@ -40,27 +40,12 @@
     <ReleaseNotes>
     </ReleaseNotes>
     <ProjectUrl>https://github.com/aarnott/ReadOnlySourceTree</ProjectUrl>
-    <LicenseUrl>https://raw.githubusercontent.com/AArnott/ReadOnlySourceTree/$CommitId$/LICENSE.txt</LicenseUrl>
+    <LicenseUrl>https://raw.githubusercontent.com/AArnott/ReadOnlySourceTree/$GitCommitIdShort$/LICENSE.txt</LicenseUrl>
     <Copyright>Copyright © Andrew Arnott</Copyright>
     <Tags>ReadOnlySourceTree</Tags>
     <GenerateSymbolPackage>false</GenerateSymbolPackage>
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
-  <Target Name="GetNuPkgVersion" DependsOnTargets="GetBuildVersion">
-    <PropertyGroup>
-      <Version>$(NuGetPackageVersion)</Version>
-      <NuSpecProperties>$(NuGetProperties);CommitId=$(GitCommitIdShort)</NuSpecProperties>
-    </PropertyGroup>
-  </Target>
   <Import Project="$(NuProjPath)\NuProj.targets" />
   <Import Project="build\ReadOnlySourceTree.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(NuGetPackageRoot)Nerdbank.GitVersioning\1.1.61-rc\build\NerdBank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(RepoRoot)packages\Nerdbank.GitVersioning.1.1.61-rc\build\NerdBank.GitVersioning.targets'))" />
-  </Target>
-  <ImportGroup>
-    <Import Project="$(NuGetPackageRoot)\Nerdbank.GitVersioning\1.1.61-rc\build\dotnet\Nerdbank.GitVersioning.targets" Condition="Exists('$(NuGetPackageRoot)\Nerdbank.GitVersioning\1.1.61-rc\build\dotnet\Nerdbank.GitVersioning.targets')" />
-  </ImportGroup>
 </Project>
