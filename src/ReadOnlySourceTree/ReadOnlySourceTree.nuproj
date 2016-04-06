@@ -19,8 +19,8 @@
     <Content Include="build\dotnet\ReadOnlySourceTree.targets" />
     <Content Include="build\ReadOnlySourceTree.props" />
     <Content Include="build\ReadOnlySourceTree.targets" />
-    <Content Include="build\portable-net+win+wpa+wp+sl+net-cf+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.props" />
-    <Content Include="build\portable-net+win+wpa+wp+sl+net-cf+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.targets" />
+    <Content Include="build\portable-net+win+wpa+wp+sl+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.props" />
+    <Content Include="build\portable-net+win+wpa+wp+sl+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\ReadOnlySourceTree.targets" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>445acb1e-3015-4af1-a4a6-f1aeed163d48</ProjectGuid>
@@ -46,14 +46,12 @@
     <GenerateSymbolPackage>false</GenerateSymbolPackage>
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
-
   <Target Name="GetNuPkgVersion" DependsOnTargets="GetBuildVersion">
     <PropertyGroup>
       <Version>$(NuGetPackageVersion)</Version>
       <NuSpecProperties>$(NuGetProperties);CommitId=$(GitCommitIdShort)</NuSpecProperties>
     </PropertyGroup>
   </Target>
-
   <Import Project="$(NuProjPath)\NuProj.targets" />
   <Import Project="build\ReadOnlySourceTree.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
