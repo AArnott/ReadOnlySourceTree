@@ -42,8 +42,8 @@
 
     <PlatformPathModifier Condition=" '$(_ROSTPlatform)' != 'AnyCPU' ">$(_ROSTPlatform)\</PlatformPathModifier>
 
-    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(ProjectBuildOutputGroup)</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(MSBuildProjectName)</IntermediateOutputPath>
     <OutputPath>$(RepoBinRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(ProjectBuildOutputGroup)</OutputPath>
   </PropertyGroup>
 </Project>

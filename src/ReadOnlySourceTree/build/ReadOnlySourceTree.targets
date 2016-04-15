@@ -7,8 +7,8 @@
   <PropertyGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' ">
     <PlatformPathModifier Condition=" '$(PlatformName)' != 'AnyCPU' and '$(PlatformName)' != '' ">$(PlatformName)\</PlatformPathModifier>
 
-    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(Configuration)\$(ProjectBuildOutputGroup)</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(Configuration)\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(MSBuildProjectName)</IntermediateOutputPath>
 
     <!-- Re-set the OutputPath property since default project templates unconditionally set it,
          undoing what we did in the .props file. -->
