@@ -40,7 +40,7 @@
     <_ROSTConfiguration>$(Configuration)</_ROSTConfiguration>
     <_ROSTConfiguration Condition=" '$(_ROSTConfiguration)' == '' ">Debug</_ROSTConfiguration>
 
-    <PlatformPathModifier Condition=" '$(_ROSTPlatform)' != 'AnyCPU' ">$(_ROSTPlatform)\</PlatformPathModifier>
+    <PlatformPathModifier Condition=" '$(_ROSTPlatform)' != 'AnyCPU' and '$(UsePlatformPathModifier)' != 'false' ">$(_ROSTPlatform)\</PlatformPathModifier>
 
     <BaseIntermediateOutputPath>$(RepoIntermediatesRoot)$(PlatformPathModifier)$(_ROSTConfiguration)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
