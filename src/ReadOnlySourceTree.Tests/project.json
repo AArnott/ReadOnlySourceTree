@@ -6,7 +6,6 @@
     },
     "Newtonsoft.Json": "6.0.8",
     "NuGet.CommandLine": "2.8.6",
-    "NuProj": "0.10.30-beta-gcbd7693f91",
     "System.Collections.Immutable": "1.1.37",
     "xunit": "2.1.0",
     "Xunit.Combinatorial": "1.1.12",
