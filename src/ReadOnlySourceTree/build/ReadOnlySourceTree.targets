@@ -2,6 +2,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+
+    <CodeAnalysisInputAssembly_NeedsUpdating Condition=" '$(CodeAnalysisInputAssembly)' == '$(OutDir)$(TargetFileName)' ">true</CodeAnalysisInputAssembly_NeedsUpdating>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(MSBuildProjectExtension)' != '.vcxproj' ">
@@ -23,5 +25,11 @@
 
     <!-- Fix placement of DocumentationFile. -->
     <DocumentationFile Condition=" '$(DocumentationFile)'!='' ">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <!-- Fix placement of FxCop files. -->
+  <PropertyGroup Condition=" '$(CodeAnalysisInputAssembly_NeedsUpdating)' == 'true' ">
+    <CodeAnalysisInputAssembly>$(OutDir)$(TargetFileName)</CodeAnalysisInputAssembly>
+    <CodeAnalysisLogFile>$(CodeAnalysisInputAssembly).CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
 </Project>

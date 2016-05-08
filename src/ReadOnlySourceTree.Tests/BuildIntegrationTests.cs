@@ -91,9 +91,16 @@ public class BuildIntegrationTests
         var actualTargetDir = evaluation.GetPropertyValue("TargetDir");
         Assert.Equal(expectedTargetDir, actualTargetDir);
 
-        string expectedTargetPath = Path.Combine(expectedTargetDir, evaluation.GetPropertyValue("TargetFileName"));
+        var actualTargetFileName = evaluation.GetPropertyValue("TargetFileName");
+        string expectedTargetPath = Path.Combine(expectedTargetDir, actualTargetFileName);
         var actualTargetPath = evaluation.GetPropertyValue("TargetPath");
         Assert.Equal(expectedTargetPath, actualTargetPath);
+
+        // CodeAnalysis
+        var actualCodeAnalysisInputAssembly = evaluation.GetPropertyValue("CodeAnalysisInputAssembly");
+        Assert.Equal($@"{expectedOutputPath}{actualTargetFileName}", actualCodeAnalysisInputAssembly);
+        var actualCodeAnalysisLogFile = evaluation.GetPropertyValue("CodeAnalysisLogFile");
+        Assert.StartsWith($@"{expectedOutputPath}{actualTargetFileName}.CodeAnalysisLog.xml", actualCodeAnalysisLogFile);
     }
 
     [Theory]
